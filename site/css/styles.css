@@ -1,0 +1,289 @@
+/* Base styles for Welcome to Programming exercises */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.exercise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.exercise-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.exercise-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.exercise-card h3 {
+    color: #667eea;
+    margin-bottom: 0.5rem;
+}
+
+.exercise-card .difficulty {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.difficulty.short { background: #4CAF50; color: white; }
+.difficulty.medium { background: #FF9800; color: white; }
+.difficulty.long { background: #F44336; color: white; }
+
+.exercise-card p {
+    margin: 0.5rem 0;
+    color: #666;
+}
+
+.exercise-card .status {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.status.not-started { background: #e3f2fd; color: #1976d2; }
+.status.completed { background: #e8f5e8; color: #2e7d32; }
+
+footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: #333;
+    color: white;
+    margin-top: 3rem;
+}
+
+/* Exercise page styles */
+.exercise-meta {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.difficulty-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.exercise-instructions {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.code-editor {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+#code-input {
+    width: 100%;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.validation-section {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.action-buttons button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#submit-btn { background: #4CAF50; color: white; }
+#reset-btn { background: #FF9800; color: white; }
+#hint-btn { background: #2196F3; color: white; }
+#show-answer-btn { background: #9C27B0; color: white; }
+
+.action-buttons button:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+.feedback-area {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.hint-area {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.answer-area {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.hint {
+    background: #fff3cd;
+    color: #856404;
+    padding: 0.75rem;
+    border-radius: 4px;
+    border-left: 4px solid #ffc107;
+    margin-bottom: 1rem;
+}
+
+.answer {
+    background: #e8f5e8;
+    color: #2e7d32;
+    padding: 1rem;
+    border-radius: 4px;
+    border-left: 4px solid #4CAF50;
+    margin-bottom: 1rem;
+}
+
+.answer h3 {
+    margin-bottom: 0.75rem;
+    color: #1b5e20;
+}
+
+.answer pre {
+    background: #f5f5f5;
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    border: 1px solid #ddd;
+}
+
+.answer code {
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.success {
+    background: #e8f5e8;
+    color: #2e7d32;
+    padding: 1rem;
+    border-radius: 4px;
+    border-left: 4px solid #4CAF50;
+}
+
+.error {
+    background: #ffebee;
+    color: #c62828;
+    padding: 1rem;
+    border-radius: 4px;
+    border-left: 4px solid #F44336;
+}
+
+.exercise-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.exercise-navigation a {
+    color: #667eea;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid #667eea;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.exercise-navigation a:hover {
+    background: #667eea;
+    color: white;
+}
+
+/* Code highlighting */
+.comment {
+    color: #008000;
+    font-style: italic;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .exercise-grid {
+        grid-template-columns: 1fr;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+}

@@ -124,10 +124,25 @@ function setupExerciseEventListeners(exercise) {
     const submitBtn = document.getElementById('submit-btn');
     const resetBtn = document.getElementById('reset-btn');
     const hintBtn = document.getElementById('hint-btn');
+    const showAnswerBtn = document.getElementById('show-answer-btn');
+
+    if (!submitBtn || !resetBtn || !hintBtn || !showAnswerBtn) {
+        console.error('One or more buttons not found:', {
+            submitBtn: !!submitBtn,
+            resetBtn: !!resetBtn,
+            hintBtn: !!hintBtn,
+            showAnswerBtn: !!showAnswerBtn
+        });
+        return;
+    }
 
     submitBtn.addEventListener('click', () => submitExercise(exercise));
     resetBtn.addEventListener('click', () => resetExercise(exercise));
     hintBtn.addEventListener('click', () => showHint(exercise));
+    showAnswerBtn.addEventListener('click', () => {
+        console.log('Show Answer clicked for exercise:', exercise.id);
+        showAnswer(exercise);
+    });
 }
 
 function submitExercise(exercise) {
@@ -154,6 +169,7 @@ function resetExercise(exercise) {
     document.getElementById('reading-understood').checked = false;
     document.getElementById('feedback').style.display = 'none';
     document.getElementById('hint-area').style.display = 'none';
+    document.getElementById('answer-area').style.display = 'none';
 
     // Reset hint system
     const hintBtn = document.getElementById('hint-btn');
@@ -193,6 +209,42 @@ function showHint(exercise) {
             hintBtn.disabled = true;
         }
     }
+}
+
+function showAnswer(exercise) {
+    // Show the correct answer
+    console.log('showAnswer called for exercise:', exercise.id);
+    console.log('Exercise solution:', exercise.solution);
+    
+    const answerArea = document.getElementById('answer-area');
+    
+    if (!answerArea) {
+        console.error('Answer area not found');
+        return;
+    }
+
+    // Toggle answer display
+    if (answerArea.style.display === 'none' || answerArea.style.display === '') {
+        console.log('Showing answer...');
+        answerArea.innerHTML = `<div class="answer"><h3>✓ Correct Answer:</h3><pre><code>${escapeHtml(exercise.solution)}</code></pre></div>`;
+        answerArea.style.display = 'block';
+        
+        // Update button text
+        const showAnswerBtn = document.getElementById('show-answer-btn');
+        showAnswerBtn.textContent = 'Hide Answer';
+        console.log('Answer displayed');
+    } else {
+        console.log('Hiding answer...');
+        answerArea.style.display = 'none';
+        document.getElementById('show-answer-btn').textContent = 'Show Answer';
+        console.log('Answer hidden');
+    }
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
 function updateNavigation(exercise) {
