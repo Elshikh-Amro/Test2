@@ -126,23 +126,25 @@ function setupExerciseEventListeners(exercise) {
     const hintBtn = document.getElementById('hint-btn');
     const showAnswerBtn = document.getElementById('show-answer-btn');
 
-    if (!submitBtn || !resetBtn || !hintBtn || !showAnswerBtn) {
-        console.error('One or more buttons not found:', {
-            submitBtn: !!submitBtn,
-            resetBtn: !!resetBtn,
-            hintBtn: !!hintBtn,
-            showAnswerBtn: !!showAnswerBtn
-        });
-        return;
-    }
-
-    submitBtn.addEventListener('click', () => submitExercise(exercise));
-    resetBtn.addEventListener('click', () => resetExercise(exercise));
-    hintBtn.addEventListener('click', () => showHint(exercise));
-    showAnswerBtn.addEventListener('click', () => {
-        console.log('Show Answer clicked for exercise:', exercise.id);
-        showAnswer(exercise);
+    console.log('Setting up event listeners for exercise:', exercise.id);
+    console.log('Buttons found:', {
+        submit: !!submitBtn,
+        reset: !!resetBtn,
+        hint: !!hintBtn,
+        showAnswer: !!showAnswerBtn
     });
+
+    if (submitBtn) submitBtn.addEventListener('click', () => submitExercise(exercise));
+    if (resetBtn) resetBtn.addEventListener('click', () => resetExercise(exercise));
+    if (hintBtn) hintBtn.addEventListener('click', () => showHint(exercise));
+    if (showAnswerBtn) {
+        showAnswerBtn.addEventListener('click', () => {
+            console.log('Show Answer button clicked for exercise:', exercise.id);
+            showAnswer(exercise);
+        });
+    } else {
+        console.warn('Show Answer button not found');
+    }
 }
 
 function submitExercise(exercise) {
