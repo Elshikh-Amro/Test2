@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Programming - Exercise</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header>
+        <h1 id="exercise-title">Exercise Title</h1>
+        <div id="exercise-meta">
+            <span id="exercise-difficulty" class="difficulty-badge">Difficulty</span>
+            <span id="exercise-progress">Progress</span>
+        </div>
+    </header>
+
+    <main>
+        <section id="exercise-content">
+            <div id="instructions" class="exercise-instructions">
+                <h2>Instructions</h2>
+                <p id="exercise-description">Exercise description will be loaded here.</p>
+            </div>
+
+            <div id="code-editor" class="code-editor">
+                <h2>Code Editor</h2>
+                <textarea id="code-input" rows="10" placeholder="Write your code here..."></textarea>
+            </div>
+
+            <div id="reading-validation" class="validation-section" style="display: none;">
+                <h2>Reading Validation</h2>
+                <label>
+                    <input type="checkbox" id="reading-understood">
+                    I have read and understood the comments in the code above.
+                </label>
+            </div>
+
+            <div id="actions" class="action-buttons">
+                <button id="submit-btn">Submit</button>
+                <button id="reset-btn">Reset</button>
+                <button id="hint-btn">Hint</button>
+            </div>
+
+            <div id="feedback" class="feedback-area" style="display: none;">
+                <!-- Success/error messages will appear here -->
+            </div>
+
+            <div id="hint-area" class="hint-area" style="display: none;">
+                <!-- Hints will appear here -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div id="navigation" class="exercise-navigation">
+            <a id="prev-exercise" href="#" style="display: none;">&larr; Previous Exercise</a>
+            <a id="back-home" href="../index.html">Back to Course</a>
+            <a id="next-exercise" href="#" style="display: none;">Next Exercise &rarr;</a>
+        </div>
+        <p>&copy; 2026 Welcome to Programming Course</p>
+    </footer>
+
+    <script src="../js/exercises.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/validation.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+</html>
