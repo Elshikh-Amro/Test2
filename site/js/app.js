@@ -169,9 +169,6 @@ function setupExerciseEventListeners(exercise) {
     if (hintBtn) hintBtn.addEventListener('click', () => showHint(exercise));
     if (showAnswerBtn) {
         showAnswerBtn.addEventListener('click', () => {
-            // Simple test - just change button text
-            showAnswerBtn.textContent = 'Button Clicked!';
-            showAnswerBtn.style.background = '#4CAF50';
             console.log('Show Answer button clicked for exercise:', exercise.id);
             showAnswer(exercise);
         });
@@ -247,7 +244,10 @@ function showHint(exercise) {
 }
 
 function showAnswer(exercise) {
-    // Show the correct answer - simplified version
+    // Show the correct answer
+    console.log('showAnswer called for exercise:', exercise.id);
+    console.log('Exercise solution:', exercise.solution);
+    
     const answerArea = document.getElementById('answer-area');
     
     if (!answerArea) {
@@ -255,13 +255,22 @@ function showAnswer(exercise) {
         return;
     }
 
-    // Simple test - just show a message
-    answerArea.innerHTML = '<div style="background: #e8f5e8; padding: 15px; border-radius: 4px; border-left: 4px solid #4CAF50;"><h3>✓ Answer Shown!</h3><p>This is a test message. The button is working!</p></div>';
-    answerArea.style.display = 'block';
-    
-    // Update button text
-    const showAnswerBtn = document.getElementById('show-answer-btn');
-    showAnswerBtn.textContent = 'Hide Answer';
+    // Toggle answer display
+    if (answerArea.style.display === 'none' || answerArea.style.display === '') {
+        console.log('Showing answer...');
+        answerArea.innerHTML = `<div class="answer"><h3>✓ Correct Answer:</h3><pre><code>${escapeHtml(exercise.solution)}</code></pre></div>`;
+        answerArea.style.display = 'block';
+        
+        // Update button text
+        const showAnswerBtn = document.getElementById('show-answer-btn');
+        showAnswerBtn.textContent = 'Hide Answer';
+        console.log('Answer displayed');
+    } else {
+        console.log('Hiding answer...');
+        answerArea.style.display = 'none';
+        document.getElementById('show-answer-btn').textContent = 'Show Answer';
+        console.log('Answer hidden');
+    }
 }
 
 function escapeHtml(text) {
