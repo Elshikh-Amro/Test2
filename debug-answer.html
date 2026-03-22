@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Show Answer</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        button { padding: 10px 20px; margin: 10px; background: #9C27B0; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .answer-area { background: #e8f5e8; padding: 15px; border-radius: 4px; border-left: 4px solid #4CAF50; margin-top: 20px; display: none; }
+        .answer h3 { margin-top: 0; color: #1b5e20; }
+        .answer pre { background: #f5f5f5; padding: 10px; border-radius: 4px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>Debug Show Answer Button</h1>
+    <p>This is a minimal test to verify the Show Answer functionality works.</p>
+
+    <button id="show-answer-btn">Show Answer</button>
+
+    <div id="answer-area" class="answer-area">
+        <!-- Answer will appear here -->
+    </div>
+
+    <script>
+        console.log('Debug page loaded');
+
+        // Mock exercise data
+        const exercise = {
+            id: 'debug-01',
+            title: 'Debug Exercise',
+            solution: '// This is the correct answer\nlet x = 10;\nlet y = 20;\nconsole.log(x + y);'
+        };
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showAnswer(exercise) {
+            console.log('showAnswer called for exercise:', exercise.id);
+            console.log('Exercise solution:', exercise.solution);
+
+            const answerArea = document.getElementById('answer-area');
+
+            if (!answerArea) {
+                console.error('Answer area not found');
+                return;
+            }
+
+            // Toggle answer display
+            if (answerArea.style.display === 'none' || answerArea.style.display === '') {
+                console.log('Showing answer...');
+                answerArea.innerHTML = `<div class="answer"><h3>✓ Correct Answer:</h3><pre><code>${escapeHtml(exercise.solution)}</code></pre></div>`;
+                answerArea.style.display = 'block';
+
+                // Update button text
+                const showAnswerBtn = document.getElementById('show-answer-btn');
+                showAnswerBtn.textContent = 'Hide Answer';
+                console.log('Answer displayed');
+            } else {
+                console.log('Hiding answer...');
+                answerArea.style.display = 'none';
+                document.getElementById('show-answer-btn').textContent = 'Show Answer';
+                console.log('Answer hidden');
+            }
+        }
+
+        // Setup button click
+        const btn = document.getElementById('show-answer-btn');
+        console.log('Button found:', !!btn);
+
+        if (btn) {
+            btn.addEventListener('click', () => {
+                console.log('Button clicked!');
+                showAnswer(exercise);
+            });
+            console.log('Click listener attached');
+        } else {
+            console.error('Button not found!');
+        }
+    </script>
+</body>
+</html>
