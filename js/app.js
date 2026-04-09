@@ -1,35 +1,23 @@
 // Main application logic for Welcome to Programming exercises
+console.log('app.js loaded');
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOMContentLoaded fired');
-    console.log('Current pathname:', window.location.pathname);
-
     // Initialize the application
     initApp();
 });
 
 function initApp() {
-    alert('initApp called!');
-    console.log('initApp called');
-
     // Check if we're on the homepage or exercise page
     const exerciseList = document.getElementById('exercise-list');
     const exerciseContent = document.getElementById('exercise-content');
 
-    console.log('exercise-list element found:', !!exerciseList);
-    console.log('exercise-content element found:', !!exerciseContent);
-
     if (exerciseList) {
         // Homepage
-        console.log('Loading homepage exercises');
         loadExercises();
     } else if (exerciseContent) {
         // Exercise page
-        console.log('Loading exercise page');
         loadExercisePage();
-    } else {
-        alert('Neither exercise-list nor exercise-content found!');
-        console.log('Neither exercise-list nor exercise-content found');
     }
 }
 
@@ -88,15 +76,10 @@ function getStatusText(status) {
 }
 
 function loadExercisePage() {
-    console.log('loadExercisePage called');
-
     // Get exercise ID from URL
     const urlParams = new URLSearchParams(window.location.search);
     const exerciseId = urlParams.get('id') || getExerciseIdFromPath();
-
-    console.log('URL params id:', urlParams.get('id'));
-    console.log('Path-based id:', getExerciseIdFromPath());
-    console.log('Final exerciseId:', exerciseId);
+    console.log('Loading exercise page for ID:', exerciseId);
 
     if (!exerciseId) {
         console.error('No exercise ID found');
@@ -104,14 +87,7 @@ function loadExercisePage() {
     }
 
     const exercise = getExerciseById(exerciseId);
-    console.log('Exercise found:', !!exercise);
-    if (exercise) {
-        console.log('Exercise details:', {
-            id: exercise.id,
-            title: exercise.title,
-            hasSolution: !!exercise.solution
-        });
-    }
+    console.log('Found exercise:', exercise);
 
     if (!exercise) {
         console.error('Exercise not found:', exerciseId);
@@ -139,10 +115,22 @@ function loadExercisePage() {
 }
 
 function getExerciseIdFromPath() {
-    // Extract from path like /exercises/exercise-01.html
+    // Extract from path like /exercises/exercise-01.html or file:///d:/path/exercises/exercise-01.html
     const path = window.location.pathname;
-    const match = path.match(/exercise-(\d+)\.html/);
-    return match ? match[1].padStart(2, '0') : null;
+
+    // Try different patterns
+    let match = path.match(/exercise-(\d+)\.html/);
+    if (match) {
+        return match[1].padStart(2, '0');
+    }
+
+    // Try with full path
+    match = path.match(/\/exercises\/exercise-(\d+)\.html/);
+    if (match) {
+        return match[1].padStart(2, '0');
+    }
+
+    return null;
 }
 
 function getExerciseById(id) {
@@ -156,24 +144,17 @@ function setupExerciseEventListeners(exercise) {
     const hintBtn = document.getElementById('hint-btn');
     const showAnswerBtn = document.getElementById('show-answer-btn');
 
-    console.log('Setting up event listeners for exercise:', exercise.id);
-    console.log('Buttons found:', {
-        submit: !!submitBtn,
-        reset: !!resetBtn,
-        hint: !!hintBtn,
-        showAnswer: !!showAnswerBtn
-    });
-
     if (submitBtn) submitBtn.addEventListener('click', () => submitExercise(exercise));
     if (resetBtn) resetBtn.addEventListener('click', () => resetExercise(exercise));
     if (hintBtn) hintBtn.addEventListener('click', () => showHint(exercise));
     if (showAnswerBtn) {
+        console.log('Show answer button found, attaching event listener');
         showAnswerBtn.addEventListener('click', () => {
-            console.log('Show Answer button clicked for exercise:', exercise.id);
+            console.log('Show answer button clicked');
             showAnswer(exercise);
         });
     } else {
-        console.warn('Show Answer button not found');
+        console.error('Show answer button not found!');
     }
 }
 
@@ -201,7 +182,18 @@ function resetExercise(exercise) {
     document.getElementById('reading-understood').checked = false;
     document.getElementById('feedback').style.display = 'none';
     document.getElementById('hint-area').style.display = 'none';
-    document.getElementById('answer-area').style.display = 'none';
+    
+    // Reset answer area
+    const answerArea = document.getElementById('answer-area');
+    answerArea.style.display = 'none';
+    answerArea.innerHTML = '';
+    answerArea.classList.remove('visible');
+    
+    // Reset show answer button
+    const showAnswerBtn = document.getElementById('show-answer-btn');
+    if (showAnswerBtn) {
+        showAnswerBtn.textContent = 'Show Answer';
+    }
 
     // Reset hint system
     const hintBtn = document.getElementById('hint-btn');
@@ -244,32 +236,52 @@ function showHint(exercise) {
 }
 
 function showAnswer(exercise) {
-    // Show the correct answer
-    console.log('showAnswer called for exercise:', exercise.id);
-    console.log('Exercise solution:', exercise.solution);
-    
+    console.log('showAnswer called with exercise:', exercise.id, exercise.title);
     const answerArea = document.getElementById('answer-area');
-    
+
     if (!answerArea) {
-        console.error('Answer area not found');
+        console.error('Answer area not found!');
         return;
     }
 
-    // Toggle answer display
-    if (answerArea.style.display === 'none' || answerArea.style.display === '') {
-        console.log('Showing answer...');
-        answerArea.innerHTML = `<div class="answer"><h3>✓ Correct Answer:</h3><pre><code>${escapeHtml(exercise.solution)}</code></pre></div>`;
-        answerArea.style.display = 'block';
-        
+    // Check current state
+    const isVisible = answerArea.style.display === 'block';
+
+    if (isVisible) {
+        // Hide answer
+        console.log('Hiding answer');
+        answerArea.style.display = 'none';
+        answerArea.textContent = '';
+        answerArea.classList.remove('visible');
+        // Remove inline styles
+        answerArea.style.removeProperty('background');
+        answerArea.style.removeProperty('padding');
+        answerArea.style.removeProperty('border');
+
         // Update button text
         const showAnswerBtn = document.getElementById('show-answer-btn');
-        showAnswerBtn.textContent = 'Hide Answer';
-        console.log('Answer displayed');
+        if (showAnswerBtn) {
+            showAnswerBtn.textContent = 'Show Answer';
+        }
     } else {
-        console.log('Hiding answer...');
-        answerArea.style.display = 'none';
-        document.getElementById('show-answer-btn').textContent = 'Show Answer';
-        console.log('Answer hidden');
+        // Show answer
+        console.log('Showing answer');
+        const solution = exercise.solution || 'No solution available';
+        console.log('Solution length:', solution.length);
+        
+        // Simple test: just set text content
+        answerArea.textContent = 'ANSWER: ' + solution.substring(0, 100) + '...';
+        answerArea.style.display = 'block';
+        answerArea.style.background = 'yellow';
+        answerArea.style.padding = '20px';
+        answerArea.style.border = '2px solid red';
+        console.log('Answer area should now be visible with yellow background');
+
+        // Update button text
+        const showAnswerBtn = document.getElementById('show-answer-btn');
+        if (showAnswerBtn) {
+            showAnswerBtn.textContent = 'Hide Answer';
+        }
     }
 }
 
